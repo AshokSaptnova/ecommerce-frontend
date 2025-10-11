@@ -1,0 +1,1 @@
+export default function Page_5() { return <div>MadhuNova Product Page</div>; }

@@ -1,0 +1,457 @@
+/* Modern Footer Styles - Inspired by SAPTNOVA Design */
+.modern-footer {
+  margin-top: auto;
+  background: linear-gradient(135deg, #1a4d3b 0%, #2d8659 50%, #1a4d3b 100%);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.modern-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.03"><circle cx="30" cy="30" r="1"/></g></svg>') repeat;
+  pointer-events: none;
+}
+
+/* Main Footer Content */
+.footer-main {
+  position: relative;
+  z-index: 1;
+  padding: 60px 0 40px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+  gap: 40px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* Company Info Section */
+.company-info {
+  grid-column: span 1;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 12px;
+}
+
+.footer-logo img {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px;
+}
+
+.footer-logo h3 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+  background: linear-gradient(45deg, #ffffff, #e0f2e7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-reg {
+  font-size: 14px;
+  vertical-align: super;
+  opacity: 0.8;
+}
+
+.company-details {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.detail-item {
+  margin-bottom: 15px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.detail-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  background: #64d87d;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(100, 216, 125, 0.6);
+}
+
+.detail-item strong {
+  color: #64d87d;
+  font-weight: 600;
+}
+
+/* Footer Sections */
+.footer-section h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #ffffff;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.footer-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, #64d87d, transparent);
+  border-radius: 1px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 12px;
+}
+
+.footer-links a {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  padding-left: 15px;
+}
+
+.footer-links a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 1px;
+  background: #64d87d;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #64d87d;
+  padding-left: 20px;
+}
+
+.footer-links a:hover::before {
+  width: 10px;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(100, 216, 125, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.newsletter-section h4 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.newsletter-section p {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.newsletter-form {
+  margin-bottom: 20px;
+}
+
+.newsletter-input-group {
+  display: flex;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.newsletter-input-group:focus-within {
+  border-color: #64d87d;
+  box-shadow: 0 0 20px rgba(100, 216, 125, 0.3);
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+}
+
+.newsletter-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter-btn {
+  background: linear-gradient(135deg, #64d87d, #4ade80);
+  border: none;
+  padding: 14px 18px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.newsletter-btn:hover {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  transform: translateX(2px);
+}
+
+.newsletter-disclaimer {
+  opacity: 0.7;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-bottom: 25px;
+}
+
+/* Social Links */
+.social-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.social-link {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-link:hover {
+  background: #64d87d;
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(100, 216, 125, 0.4);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-bottom-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+}
+
+.copyright p {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.payment-methods {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.payment-label {
+  font-size: 13px;
+  opacity: 0.8;
+  font-weight: 500;
+}
+
+.payment-icons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.payment-icon {
+  height: 24px;
+  width: auto;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 4px 6px;
+}
+
+.payment-icon:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Newsletter Message */
+.newsletter-message {
+  background: rgba(100, 216, 125, 0.1);
+  border-top: 2px solid #64d87d;
+  padding: 15px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.message-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  font-weight: 500;
+  color: #64d87d;
+}
+
+/* Small Spinner for Newsletter Button */
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animation for footer entrance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modern-footer {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .footer-main {
+    padding: 40px 0 30px;
+  }
+  
+  .footer-section h4 {
+    font-size: 16px;
+  }
+  
+  .newsletter-section {
+    padding: 20px;
+  }
+  
+  .footer-logo h3 {
+    font-size: 24px;
+  }
+}
+
+/* Loading state for newsletter */
+.newsletter-btn.loading {
+  background: rgba(100, 216, 125, 0.6);
+  cursor: not-allowed;
+}
+
+.newsletter-btn.loading::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top: 2px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

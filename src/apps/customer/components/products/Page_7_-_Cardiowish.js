@@ -1,0 +1,1 @@
+export default function Page_7() { return <div>Cardiowish Product Page</div>; }

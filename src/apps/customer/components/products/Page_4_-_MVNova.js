@@ -1,0 +1,1 @@
+export default function Page_4() { return <div>MVNova Product Page</div>; }

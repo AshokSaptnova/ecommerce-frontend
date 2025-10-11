@@ -1,0 +1,253 @@
+.admin-sidebar {
+  width: 250px;
+  height: 100vh;
+  background: #2c3e50;
+  color: white;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow-x: hidden;
+  overflow-y: auto;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+  padding: 20px 15px;
+  border-bottom: 1px solid #34495e;
+  background: #34495e;
+  flex-shrink: 0;
+}
+
+.logo h3 {
+  margin: 0 0 15px 0;
+  color: #ecf0f1;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: rgba(52, 73, 94, 0.5);
+  border-radius: 8px;
+}
+
+.admin-avatar {
+  width: 32px;
+  height: 32px;
+  background: #3498db;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.admin-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.admin-details strong {
+  color: #ecf0f1;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.admin-details small {
+  color: #bdc3c7;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 15px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item-li {
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.nav-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  background: none;
+  border: none;
+  color: #bdc3c7;
+  text-align: left;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  border-left: 3px solid transparent;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+.nav-button:hover {
+  background: #34495e;
+  color: #ecf0f1;
+  border-left-color: #3498db;
+}
+
+.nav-button.active {
+  background: #3498db;
+  color: white;
+  border-left-color: #2980b9;
+  font-weight: 600;
+}
+
+.nav-icon {
+  font-size: 16px;
+  width: 18px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.nav-label {
+  flex: 1;
+  font-weight: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-footer {
+  padding: 15px;
+  border-top: 1px solid #34495e;
+  background: #2c3e50;
+  flex-shrink: 0;
+}
+
+.logout-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: #e74c3c;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  font-family: inherit;
+}
+
+.logout-button:hover {
+  background: #c0392b;
+}
+
+.logout-icon {
+  font-size: 14px;
+}
+
+/* Scrollbar Styling for Webkit browsers */
+.sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+  background: #2c3e50;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+  background: #34495e;
+  border-radius: 3px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: #4a5f7a;
+}
+
+/* Scrollbar Styling for the entire sidebar */
+.admin-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.admin-sidebar::-webkit-scrollbar-track {
+  background: #2c3e50;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+  background: #34495e;
+  border-radius: 3px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #4a5f7a;
+}
+
+/* Firefox scrollbar */
+.sidebar-nav {
+  scrollbar-width: thin;
+  scrollbar-color: #34495e #2c3e50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+  
+  .nav-button {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-sidebar {
+    width: 60px;
+  }
+  
+  .nav-label {
+    display: none;
+  }
+  
+  .admin-details {
+    display: none;
+  }
+  
+  .logo h3 {
+    font-size: 20px;
+  }
+  
+  .nav-button {
+    padding: 12px 10px;
+    justify-content: center;
+  }
+}

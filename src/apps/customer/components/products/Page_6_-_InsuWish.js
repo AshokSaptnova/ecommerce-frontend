@@ -1,0 +1,1 @@
+export default function Page_6() { return <div>InsuWish Product Page</div>; }

@@ -1,0 +1,484 @@
+/* Vendor Financials Styles */
+.vendor-financials {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.period-selector {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  font-size: 0.9rem;
+}
+
+.btn-payout-request {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-payout-request:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
+}
+
+.btn-payout-request:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Financial Cards */
+.financial-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.financial-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.financial-card:hover {
+  transform: translateY(-2px);
+}
+
+.financial-card.revenue {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.financial-card.monthly {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.financial-card.commission {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.financial-card.balance {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  opacity: 0.8;
+}
+
+.card-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.amount {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.change {
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.change.positive {
+  color: #d1fae5;
+}
+
+.change.negative {
+  color: #fed7d7;
+}
+
+.change.neutral {
+  color: #e5e7eb;
+}
+
+/* Payout Section */
+.payout-section {
+  margin-bottom: 2rem;
+}
+
+.payout-section h3 {
+  margin-bottom: 1rem;
+  color: #1d1d1f;
+}
+
+.payout-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+}
+
+.payout-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 0.9rem;
+  min-width: 800px;
+}
+
+.payout-table th {
+  background: #f5f5f7;
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #1d1d1f;
+  border-bottom: 1px solid #e1e4e8;
+  white-space: nowrap;
+}
+
+.payout-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.payout-table tr:hover {
+  background: #fafafa;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.status-pending {
+  background: #fff4e6;
+  color: #ff8b00;
+}
+
+.status-processing {
+  background: #e6f3ff;
+  color: #0066cc;
+}
+
+.status-completed {
+  background: #d1f2eb;
+  color: #00875a;
+}
+
+.status-failed {
+  background: #ffe6e6;
+  color: #dc3545;
+}
+
+.btn-view-details {
+  background: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s ease;
+}
+
+.btn-view-details:hover {
+  background: #e0e0e0;
+}
+
+.no-payouts {
+  text-align: center;
+  padding: 2rem;
+  color: #6e6e73;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Revenue Chart */
+.revenue-chart-section {
+  margin-bottom: 2rem;
+}
+
+.revenue-chart-section h3 {
+  margin-bottom: 1rem;
+  color: #1d1d1f;
+}
+
+.chart-placeholder {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.mock-chart {
+  max-width: 600px;
+  margin: 1rem auto 0;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  height: 200px;
+  margin-bottom: 1rem;
+  gap: 0.5rem;
+}
+
+.chart-bar {
+  background: linear-gradient(to top, #11998e, #38ef7d);
+  border-radius: 4px 4px 0 0;
+  flex: 1;
+  min-height: 20px;
+  transition: all 0.3s ease;
+}
+
+.chart-bar:hover {
+  opacity: 0.8;
+}
+
+.chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #6e6e73;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e4e8;
+  background: #f8f9fa;
+  border-radius: 12px 12px 0 0;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #1d1d1f;
+  font-size: 1.25rem;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6e6e73;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e1e4e8;
+}
+
+/* Payout Form */
+.payout-form {
+  padding: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  color: #1d1d1f;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.balance-display {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #11998e;
+  padding: 0.75rem;
+  background: #f0fdf4;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #11998e;
+  box-shadow: 0 0 0 3px rgba(17, 153, 142, 0.1);
+}
+
+.form-group select:disabled {
+  background: #f9fafb;
+  color: #6b7280;
+}
+
+.form-group small {
+  color: #6b7280;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+.payout-info {
+  background: #f0f9ff;
+  padding: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #0ea5e9;
+  margin-bottom: 1.5rem;
+}
+
+.payout-info p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  color: #0c4a6e;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  border-top: 1px solid #e1e4e8;
+}
+
+.btn-cancel {
+  background: #6e6e73;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #5a5a5f;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    justify-content: space-between;
+  }
+
+  .financial-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .financial-card {
+    flex-direction: row;
+  }
+
+  .card-icon {
+    font-size: 2rem;
+  }
+
+  .amount {
+    font-size: 1.5rem;
+  }
+
+  .payout-table-container {
+    overflow-x: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-content {
+    margin: 0.5rem;
+    max-height: calc(100vh - 1rem);
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .chart-bars {
+    height: 150px;
+  }
+}

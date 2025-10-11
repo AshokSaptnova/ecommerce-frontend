@@ -1,0 +1,1276 @@
+/* PDF-Style Presentation Mode */
+.presentation-mode {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* PDF Slide Layout */
+.pdf-slide {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f4f8 30%, #d1ecf1 70%, #87ceeb 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Background decorative curves */
+.bg-curve-1 {
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(231, 76, 60, 0.1));
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.bg-curve-2 {
+  position: absolute;
+  bottom: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+  background: linear-gradient(135deg, rgba(135, 206, 235, 0.2), rgba(173, 216, 230, 0.2));
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* PDF Header */
+.pdf-header {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  padding: 1.5rem 2rem;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.brand-section {
+  position: relative;
+}
+
+.saptnova-logo {
+  position: relative;
+}
+
+.logo-oval {
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  border-radius: 50px;
+  padding: 0.5rem 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-oval::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  border-radius: 50px;
+  z-index: -1;
+}
+
+.saptnova-text {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -0.5px;
+}
+
+.registered {
+  font-size: 0.8rem;
+  color: white;
+  vertical-align: top;
+  margin-top: -0.5rem;
+}
+
+.ayurveda-text {
+  display: block;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.tagline-text {
+  display: block;
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+  font-style: italic;
+}
+
+.main-title {
+  text-align: center;
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+}
+
+.main-title h1 {
+  font-size: 2.4rem;
+  color: #ff6b35;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+}
+
+.product-showcase {
+  text-align: right;
+  position: relative;
+  padding-right: 1rem;
+}
+
+.product-name-badge {
+  background: linear-gradient(135deg, #27ae60, #2ecc71);
+  color: white;
+  padding: 1.2rem 1.5rem;
+  border-radius: 20px;
+  display: inline-block;
+  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+  position: relative;
+  text-align: center;
+  min-width: 200px;
+}
+
+.leaf-icon {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  font-size: 1.5rem;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-name-badge h2 {
+  font-size: 1.8rem;
+  margin: 0.5rem 0 0.3rem 0;
+  font-weight: 700;
+  color: #2c5f2d;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.product-name-badge p {
+  margin: 0 0 0.3rem 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
+  color: #1e88e5;
+  font-weight: 600;
+}
+
+.product-name-badge span {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* PDF Content Grid */
+.pdf-content {
+  display: grid;
+  grid-template-columns: 1.8fr 0.8fr 1.2fr;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Center illustration */
+.center-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.liver-diagram {
+  position: relative;
+  width: 150px;
+  height: 200px;
+}
+
+.liver-visual {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse, #ff6b6b 0%, #e74c3c 30%, #c0392b 70%);
+  border-radius: 60% 40% 40% 60%;
+  position: relative;
+  transform: rotate(-15deg);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.2), 0 5px 15px rgba(231, 76, 60, 0.3);
+}
+
+.liver-visual::before {
+  content: '';
+  position: absolute;
+  top: 20%;
+  left: 60%;
+  width: 40%;
+  height: 50%;
+  background: radial-gradient(ellipse, #ff9ff3 0%, #f368e0 50%);
+  border-radius: 50%;
+  transform: rotate(20deg);
+}
+
+/* Ingredients Column */
+.ingredients-column {
+  background: rgba(255,255,255,0.95);
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.ingredients-column h3 {
+  color: #2c3e50;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  max-height: 450px;
+  overflow-y: auto;
+}
+
+.ingredient-item {
+  background: #ffffff;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+  transition: all 0.2s;
+}
+
+.ingredient-item:nth-child(odd) {
+  background: #fffbf0;
+}
+
+.ingredient-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.ingredient-name {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.3rem;
+}
+
+.ingredient-name strong {
+  color: #2c3e50;
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.botanical-name {
+  color: #6c757d;
+  font-size: 0.75rem;
+  font-style: italic;
+  margin-top: 0.1rem;
+}
+
+.amount-badge {
+  background: #007bff;
+  color: white;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  align-self: flex-start;
+  margin-top: 0.2rem;
+}
+
+.ingredient-desc {
+  font-size: 0.7rem;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Benefits Column */
+.benefits-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.benefits-section {
+  background: rgba(255,255,255,0.95);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.8rem;
+  padding: 0.6rem;
+  background: linear-gradient(135deg, #fff8f0, #fef5e7);
+  border-radius: 8px;
+  border-left: 3px solid #ff6b35;
+}
+
+.benefit-item:last-child {
+  margin-bottom: 0;
+}
+
+.benefit-icon {
+  color: #e74c3c;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.benefit-item p {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.product-bottle-section {
+  background: rgba(255,255,255,0.95);
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.product-bottle-container {
+  position: relative;
+}
+
+.product-bottle-image {
+  width: 100px;
+  height: 130px;
+  object-fit: contain;
+  filter: drop-shadow(0 3px 8px rgba(0,0,0,0.2));
+  margin-bottom: 0.5rem;
+}
+
+.product-brand-small {
+  text-align: center;
+}
+
+.product-brand-small span:first-child {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #e74c3c;
+  margin-bottom: 0.2rem;
+}
+
+.product-brand-small span:last-child {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #27ae60;
+  margin-bottom: 0.3rem;
+}
+
+.product-brand-small p {
+  font-size: 0.7rem;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* PDF Footer */
+.pdf-footer {
+  background: rgba(255,255,255,0.9);
+  padding: 1rem 2rem;
+  border-top: 1px solid #e9ecef;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.packing-dosage-section {
+  background: rgba(248,249,250,0.8);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #28a745;
+}
+
+.packing-dosage-section p {
+  margin: 0.3rem 0;
+  color: #2c3e50;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.certification-badges {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem;
+}
+
+.cert-item {
+  background: rgba(248,249,250,0.9);
+  border: 1px solid #dee2e6;
+  padding: 0.6rem;
+  border-radius: 8px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.cert-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.cert-icon {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.cert-item p {
+  margin: 0;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1.1;
+  color: #2c3e50;
+}
+
+/* Floating Controls */
+.floating-controls {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  transition: opacity 0.3s ease;
+}
+
+.floating-controls.hidden {
+  opacity: 0;
+}
+
+.floating-controls.visible {
+  opacity: 1;
+}
+
+.floating-controls > * {
+  pointer-events: auto;
+}
+
+/* Top Control Bar */
+.top-controls {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0,0,0,0.7);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.control-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.control-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.05);
+}
+
+.control-btn.active {
+  background: #28a745;
+  border-color: #28a745;
+}
+
+.product-counter {
+  background: rgba(255,255,255,0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Navigation Arrows */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.7);
+  border: none;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow:hover {
+  background: rgba(0,0,0,0.9);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.left-arrow {
+  left: 30px;
+}
+
+.right-arrow {
+  right: 30px;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(0,0,0,0.7);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  backdrop-filter: blur(10px);
+}
+
+.nav-toggle-btn {
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.nav-toggle-btn:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.product-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.dot.active {
+  background: #007bff;
+  transform: scale(1.2);
+}
+
+.dot:hover:not(.active) {
+  background: rgba(255,255,255,0.6);
+}
+
+/* Floating Product Navigation */
+.floating-product-nav {
+  position: fixed;
+  left: -280px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 250px;
+  background: rgba(0,0,0,0.9);
+  border-radius: 0 15px 15px 0;
+  backdrop-filter: blur(15px);
+  transition: left 0.3s ease;
+  z-index: 101;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.floating-product-nav.expanded {
+  left: 0;
+}
+
+.product-nav-header {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  text-align: center;
+}
+
+.product-nav-header h4 {
+  color: white;
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.product-nav-list {
+  padding: 1rem 0;
+}
+
+.product-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+  transition: all 0.3s;
+  width: 100%;
+  text-align: left;
+}
+
+.product-nav-item:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  transform: translateX(5px);
+}
+
+.product-nav-item.active {
+  background: #007bff;
+  color: white;
+}
+
+.nav-number {
+  background: rgba(255,255,255,0.2);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.product-nav-item.active .nav-number {
+  background: white;
+  color: #007bff;
+}
+
+.nav-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+  .pdf-content {
+    grid-template-columns: 1.5fr 0.6fr 1fr;
+  }
+  
+  .ingredients-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .pdf-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .pdf-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .center-illustration {
+    order: 2;
+  }
+  
+  .benefits-column {
+    order: 3;
+  }
+  
+  .main-title h1 {
+    font-size: 1.8rem;
+  }
+  
+  .product-showcase {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .pdf-header {
+    padding: 1rem;
+  }
+  
+  .pdf-content {
+    padding: 0 1rem;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .certification-badges {
+    grid-template-columns: 1fr 1fr;
+  }
+  
+  .nav-arrow {
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+  }
+  
+  .left-arrow {
+    left: 15px;
+  }
+  
+  .right-arrow {
+    right: 15px;
+  }
+  
+  .floating-product-nav {
+    width: 200px;
+    left: -220px;
+  }
+  
+  .main-title h1 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Loading and Error States */
+.presentation-loading,
+.presentation-error,
+.presentation-empty {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  text-align: center;
+}
+
+.loading-spinner-large {
+  padding: 3rem;
+}
+
+.spinner-large {
+  width: 80px;
+  height: 80px;
+  border: 6px solid rgba(255,255,255,0.3);
+  border-top: 6px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 2rem;
+}
+
+.loading-spinner-large h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.loading-spinner-large p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.error-content,
+.empty-content {
+  padding: 3rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
+  max-width: 500px;
+}
+
+.error-content h2,
+.empty-content h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #ff6b6b;
+}
+
+.error-content p,
+.empty-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.retry-btn-large {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.retry-btn-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.back-link {
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 25px;
+  transition: all 0.3s;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+.back-link:hover {
+  color: white;
+  border-color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.1);
+}
+
+/* Main Layout */
+.presentation-mode {
+  display: flex;
+  flex-direction: row;
+}
+
+.product-sidebar {
+  width: 300px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 1rem;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+.product-sidebar h3 {
+  margin: 0 0 1rem 0;
+  text-align: center;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: left;
+}
+
+.product-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+.product-nav-btn.active {
+  background: #007bff;
+  border-color: #007bff;
+}
+
+.product-number {
+  background: rgba(255, 255, 255, 0.2);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.product-nav-btn.active .product-number {
+  background: white;
+  color: #007bff;
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Product Display */
+.product-display {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.product-slide {
+  flex: 1;
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+}
+
+/* Slide Header */
+.slide-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  align-items: center;
+}
+
+.brand-logo {
+  text-align: center;
+}
+
+.logo-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff6b6b, #ffa500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border: 4px solid white;
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+}
+
+.brand-logo p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #666;
+  font-style: italic;
+}
+
+.product-title-section {
+  text-align: center;
+}
+
+.main-tagline {
+  font-size: 2rem;
+  color: #ff6b35;
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.product-image-section {
+  text-align: center;
+}
+
+.product-package {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  border-radius: 15px;
+  padding: 1.5rem;
+  color: white;
+  box-shadow: 0 5px 20px rgba(79, 172, 254, 0.3);
+}
+
+.product-package img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  border: 3px solid white;
+}
+
+.product-package h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+}
+
+.product-package p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
+}
+
+/* Slide Content */
+.slide-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* Ingredients Section */
+.ingredients-section h3 {
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.ingredients-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.ingredient-item {
+  background: #f8f9fa;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border-left: 3px solid #007bff;
+}
+
+.ingredient-name {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.ingredient-name strong {
+  color: #2c3e50;
+  font-size: 0.85rem;
+}
+
+.amount {
+  background: #007bff;
+  color: white;
+  padding: 0.125rem 0.375rem;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.ingredient-desc {
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.3;
+  margin: 0;
+}
+
+/* Benefits Section */
+.benefits-grid {
+  margin-bottom: 2rem;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border-radius: 8px;
+  border-left: 4px solid #ffc107;
+}
+
+.benefit-icon {
+  color: #ffc107;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.benefit-item p {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.packaging-info {
+  background: #e7f3ff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  border: 2px solid #007bff;
+}
+
+.packaging-info p {
+  margin: 0.5rem 0;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.certification-badges {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.badge {
+  text-align: center;
+  padding: 1rem;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(40, 167, 69, 0.3);
+}
+
+.badge-icon {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.badge p {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Navigation */
+.slide-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.nav-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+}
+
+.slide-indicators {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 123, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.indicator.active {
+  background: #007bff;
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .slide-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .ingredients-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .slide-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .presentation-mode {
+    flex-direction: column;
+  }
+  
+  .product-sidebar {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .product-list {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  
+  .product-nav-btn {
+    min-width: 150px;
+    flex-shrink: 0;
+  }
+  
+  .certification-badges {
+    grid-template-columns: 1fr;
+  }
+}
