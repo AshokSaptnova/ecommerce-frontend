@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorAddProduct.css';
 import { handleApiError } from '../../../../shared/utils/errorHandler';
 
@@ -102,15 +103,8 @@ const VendorAddProduct = ({ vendorData, editProduct = null, onSaveSuccess = null
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/categories/', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setCategories(data);
-      }
+      const data = await vendorApi.getCategories(token);
+      setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -217,69 +211,54 @@ const VendorAddProduct = ({ vendorData, editProduct = null, onSaveSuccess = null
         productData.requires_shipping = true;
       }
 
-      const url = isEditMode 
-        ? `http://127.0.0.1:8000/products/${editProduct.id}`
-        : 'http://127.0.0.1:8000/products/';
-      
-      const method = isEditMode ? 'PUT' : 'POST';
-
       console.log('🚀 Sending to API:', {
-        url,
-        method,
+        isEditMode,
         productData
       });
       console.log('📊 Stock quantity in payload:', productData.stock_quantity);
       console.log('🖼️ Image data in payload:', productData.images);
-      console.log('🔄 Is Edit Mode:', isEditMode);
 
-      const response = await fetch(url, {
-        method: method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(productData)
-      });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log('✅ Response from server:', responseData);
-        console.log('📊 Stock quantity in response:', responseData.stock_quantity);
-        
-        const message = isEditMode ? 'Product updated successfully!' : 'Product created successfully!';
-        setSuccess(message);
-        
-        if (!isEditMode) {
-          // Reset form only in create mode
-          setFormData({
-            name: '',
-            tagline: '',
-            description: '',
-            price: '',
-            compare_price: '',
-            stock_quantity: '',
-            category_id: '',
-            image_url: '',
-            is_active: true,
-            packing: '',
-            dosage: '',
-            benefits: [''],
-            ingredients: [{ name: '', quantity: '', description: '' }]
-          });
-        }
-        
-        setTimeout(() => {
-          setSuccess('');
-          if (isEditMode && onSaveSuccess) {
-            onSaveSuccess(); // Callback to parent component
-          }
-        }, 2000);
+      // Use vendorApi methods
+      let responseData;
+      if (isEditMode) {
+        responseData = await vendorApi.updateProduct(editProduct.id, productData, token);
       } else {
-        const errorMessage = await handleApiError(response);
-        setError(errorMessage);
+        responseData = await vendorApi.createProduct(vendorData.id, productData, token);
       }
+
+      console.log('✅ Response from server:', responseData);
+      console.log('📊 Stock quantity in response:', responseData.stock_quantity);
+      
+      const message = isEditMode ? 'Product updated successfully!' : 'Product created successfully!';
+      setSuccess(message);
+      
+      if (!isEditMode) {
+        // Reset form only in create mode
+        setFormData({
+          name: '',
+          tagline: '',
+          description: '',
+          price: '',
+          compare_price: '',
+          stock_quantity: '',
+          category_id: '',
+          image_url: '',
+          is_active: true,
+          packing: '',
+          dosage: '',
+          benefits: [''],
+          ingredients: [{ name: '', quantity: '', description: '' }]
+        });
+      }
+      
+      setTimeout(() => {
+        setSuccess('');
+        if (isEditMode && onSaveSuccess) {
+          onSaveSuccess(); // Callback to parent component
+        }
+      }, 2000);
     } catch (error) {
-      setError('Network error. Please try again.');
+      setError(error.message || 'Network error. Please try again.');
       console.error(`Error ${isEditMode ? 'updating' : 'creating'} product:`, error);
     } finally {
       setLoading(false);

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorProfile.css';
 import { handleApiError } from '../../../../shared/utils/errorHandler';
 
@@ -28,7 +29,7 @@ const VendorProfile = ({ vendorData }) => {
     setSuccess('');
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/vendors/me', {
+      const response = await fetch(`${vendorApi.getBaseUrl()}/vendors/me`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

@@ -37,29 +37,14 @@ const VendorProductManagement = ({ vendorData }) => {
       const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
       console.log(`🔄 Toggling product ${productId} status from ${currentStatus} to ${newStatus}`);
       
-      const response = await fetch(`http://127.0.0.1:8000/products/${productId}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          status: newStatus
-        })
-      });
-
-      if (response.ok) {
-        // Update local state
-        setProducts(products.map(p => 
-          p.id === productId ? { ...p, status: newStatus } : p
-        ));
-        console.log(`✅ Product status updated successfully`);
-        alert(`Product ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully!`);
-      } else {
-        const errorData = await response.json().catch(() => ({ detail: 'Unknown error' }));
-        console.error('❌ Failed to update product status:', response.status, errorData);
-        alert(`Failed to update product status: ${errorData.detail || response.statusText}`);
-      }
+      await vendorApi.updateProduct(productId, { status: newStatus }, token);
+      
+      // Update local state
+      setProducts(products.map(p => 
+        p.id === productId ? { ...p, status: newStatus } : p
+      ));
+      console.log(`✅ Product status updated successfully`);
+      alert(`Product ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully!`);
     } catch (error) {
       console.error('❌ Error updating product:', error);
       alert('Error updating product status. Please check console for details.');
@@ -87,21 +72,10 @@ const VendorProductManagement = ({ vendorData }) => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        // Remove from local state
-        setProducts(products.filter(p => p.id !== productId));
-        alert('Product deleted successfully!');
-      } else {
-        const errorData = await response.json();
-        alert(`Failed to delete product: ${errorData.detail || 'Unknown error'}`);
-      }
+      await vendorApi.deleteProduct(productId, token);
+      // Remove from local state
+      setProducts(products.filter(p => p.id !== productId));
+      alert('Product deleted successfully!');
     } catch (error) {
       console.error('Error deleting product:', error);
       alert('Error deleting product. Please try again.');

@@ -26,22 +26,12 @@ const VendorInventory = ({ vendorData }) => {
 
   const handleStockUpdate = async (productId) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/products/${productId}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ stock_quantity: parseInt(editStock) })
-      });
-
-      if (response.ok) {
-        setProducts(products.map(p => 
-          p.id === productId ? { ...p, stock_quantity: parseInt(editStock) } : p
-        ));
-        setEditingId(null);
-        setEditStock('');
-      }
+      await vendorApi.updateProduct(productId, { stock_quantity: parseInt(editStock) }, token);
+      setProducts(products.map(p => 
+        p.id === productId ? { ...p, stock_quantity: parseInt(editStock) } : p
+      ));
+      setEditingId(null);
+      setEditStock('');
     } catch (error) {
       console.error('Error updating stock:', error);
     }

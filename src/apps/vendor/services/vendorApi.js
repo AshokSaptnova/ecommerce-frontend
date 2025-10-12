@@ -77,6 +77,21 @@ export const vendorApi = {
     return response.json();
   },
 
+  // Categories endpoint
+  getCategories: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/categories/`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get categories');
+    }
+    
+    return response.json();
+  },
+
   // Product endpoints
   getProducts: async (vendorId, token) => {
     const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/products`, {
@@ -140,4 +155,83 @@ export const vendorApi = {
     
     return response.json();
   },
+
+  // Order endpoints
+  getOrders: async (vendorId, params, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/orders?${params}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get orders');
+    }
+    
+    return response.json();
+  },
+
+  updateOrderStatus: async (vendorId, orderId, status, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/orders/${orderId}/status`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ status }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update order status');
+    }
+    
+    return response.json();
+  },
+
+  // Financials endpoints (placeholder for future implementation)
+  getFinancials: async (period, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendor/financials?period=${period}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get financials');
+    }
+    
+    return response.json();
+  },
+
+  getPayouts: async (token) => {
+    const response = await fetch(`${API_BASE_URL}/vendor/payouts`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get payouts');
+    }
+    
+    return response.json();
+  },
+
+  requestPayout: async (amount, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendor/payouts/request`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to request payout');
+    }
+    
+    return response.json();
+  },
 };
+
