@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorDashboard.css';
 
 const VendorDashboard = ({ vendorData, onNavigate }) => {
@@ -14,18 +15,8 @@ const VendorDashboard = ({ vendorData, onNavigate }) => {
 
   const fetchDashboardData = async () => {
     try {
-      // Fetch vendor products
-      const productsResponse = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/products`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      let products = [];
-      if (productsResponse.ok) {
-        products = await productsResponse.json();
-      }
+      // Fetch vendor products using API service
+      const products = await vendorApi.getProducts(vendorData.id, token);
 
       // Calculate statistics
       const totalProducts = products.length;

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import VendorAddProduct from './VendorAddProduct';
 import '../../styles/VendorProductManagement.css';
 
@@ -19,20 +20,11 @@ const VendorProductManagement = ({ vendorData }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/products`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      } else {
-        setError('Failed to fetch products');
-      }
+      const data = await vendorApi.getProducts(vendorData.id, token);
+      setProducts(data);
     } catch (error) {
+      console.error('Error fetching products:', error);
+      setError('Failed to fetch products');
       setError('Network error. Please try again.');
       console.error('Error fetching products:', error);
     } finally {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorReports.css';
 
 const VendorReports = ({ vendorData }) => {
@@ -13,47 +14,46 @@ const VendorReports = ({ vendorData }) => {
 
   const fetchReportData = async () => {
     try {
-      // Fetch vendor products and orders
-      const productsResponse = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/products`, {
+      // Fetch vendor products using API service
+      const products = await vendorApi.getProducts(vendorData.id, token);
+
+      // Fetch vendor orders
+      const ordersResponse = await fetch(`${vendorApi.getBaseUrl()}/vendors/${vendorData.id}/orders`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
-      const ordersResponse = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/orders`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-
-      if (productsResponse.ok && ordersResponse.ok) {
-        const products = await productsResponse.json();
-        const orders = await ordersResponse.json();
-
-        // Calculate metrics
-        const totalRevenue = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
-        const totalOrders = orders.length;
-        const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-        const totalProducts = products.length;
-        const activeProducts = products.filter(p => p.is_active).length;
-        const totalStock = products.reduce((sum, p) => sum + p.stock_quantity, 0);
-
-        // Top products by stock value
-        const topProducts = products
-          .map(p => ({
-            name: p.name,
-            value: p.price * p.stock_quantity,
-            stock: p.stock_quantity
-          }))
-          .sort((a, b) => b.value - a.value)
-          .slice(0, 5);
-
-        setReportData({
-          totalRevenue,
-          totalOrders,
-          averageOrderValue,
-          totalProducts,
-          activeProducts,
-          totalStock,
-          topProducts
-        });
+      let orders = [];
+      if (ordersResponse.ok) {
+        orders = await ordersResponse.json();
       }
+
+      // Calculate metrics
+      const totalRevenue = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+      const totalOrders = orders.length;
+      const averageOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+      const totalProducts = products.length;
+      const activeProducts = products.filter(p => p.is_active).length;
+      const totalStock = products.reduce((sum, p) => sum + p.stock_quantity, 0);
+
+      // Top products by stock value
+      const topProducts = products
+        .map(p => ({
+          name: p.name,
+          value: p.price * p.stock_quantity,
+          stock: p.stock_quantity
+        }))
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 5);
+
+      setReportData({
+        totalRevenue,
+        totalOrders,
+        averageOrderValue,
+        totalProducts,
+        activeProducts,
+        totalStock,
+        topProducts
+      });
     } catch (error) {
       console.error('Error fetching report data:', error);
     } finally {

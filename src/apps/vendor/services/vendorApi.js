@@ -76,4 +76,68 @@ export const vendorApi = {
     
     return response.json();
   },
+
+  // Product endpoints
+  getProducts: async (vendorId, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/products`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to get products');
+    }
+    
+    return response.json();
+  },
+
+  createProduct: async (vendorId, productData, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/products`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(productData),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to create product');
+    }
+    
+    return response.json();
+  },
+
+  updateProduct: async (productId, productData, token) => {
+    const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(productData),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to update product');
+    }
+    
+    return response.json();
+  },
+
+  deleteProduct: async (productId, token) => {
+    const response = await fetch(`${API_BASE_URL}/products/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to delete product');
+    }
+    
+    return response.json();
+  },
 };

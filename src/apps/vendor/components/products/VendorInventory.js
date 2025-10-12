@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorInventory.css';
 
 const VendorInventory = ({ vendorData }) => {
@@ -14,16 +15,8 @@ const VendorInventory = ({ vendorData }) => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/products`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      }
+      const data = await vendorApi.getProducts(vendorData.id, token);
+      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {
