@@ -97,7 +97,6 @@ const OrderManagement = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-    try {
       await adminApi.updateOrderStatus(orderId, newStatus, token);
       
       setToast({ 
