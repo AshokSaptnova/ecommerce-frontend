@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../shared/context/AuthContext';
@@ -6,6 +5,7 @@ import CartIcon from '../../../../shared/components/CartIcon';
 import CartSidebar from '../../../../shared/components/CartSidebar';
 import './Navbar.css';
 import logo from '../../../../assets/images/logos/saptnova_logo.png';
+import api from '../../../../shared/services/api';
 
 function Navbar() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -47,28 +47,11 @@ function Navbar() {
   const fetchCategories = async () => {
     try {
       // Fetch categories from backend
-      const response = await fetch('http://localhost:8000/categories/');
-      console.log('Categories API response status:', response.status);
-      
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Fetched categories:', data);
-        setCategories(data);
-      } else {
-        console.error('Failed to fetch categories, status:', response.status);
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+      const data = await api.get('/categories/');
+      console.log('Fetched categories:', data);
+      setCategories(data);
     } catch (error) {
-      console.error('Failed to fetch categories:', error);
-      // Fallback categories if API fails
-      setCategories([
-        { id: 1, name: 'SAPTNOVA', slug: 'saptnova' },
-        { id: 2, name: 'YakritNova', slug: 'yakritnova' },
-        { id: 3, name: 'MVNova', slug: 'mvnova' },
-        { id: 4, name: 'MadhuNova', slug: 'madhunova' },
-        { id: 5, name: 'InsuWish', slug: 'insuwish' },
-        { id: 6, name: 'Cardiowish', slug: 'cardiowish' }
-      ]);
+      console.error('Error fetching categories:', error);
     }
   };
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import api from '../../../shared/services/api';
 import './ContactPage.css';
 
 const ContactPage = () => {
@@ -22,34 +23,12 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitStatus({ type: '', message: '' });
-
     try {
-      // TODO: Replace with actual API endpoint
-      const response = await fetch('http://localhost:8000/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        setSubmitStatus({
-          type: 'success',
-          message: 'Thank you for contacting us! We will get back to you soon.'
-        });
-        setFormData({ name: '', email: '', phone: '', comment: '' });
-      } else {
-        throw new Error('Failed to send message');
-      }
-    } catch (error) {
-      console.error('Contact form error:', error);
-      setSubmitStatus({
-        type: 'success', // Show success anyway for demo
-        message: 'Thank you for contacting us! We will get back to you soon.'
-      });
+      const response = await api.post('/contact', formData);
+      setSubmitStatus({ type: 'success', message: 'Message sent successfully!' });
       setFormData({ name: '', email: '', phone: '', comment: '' });
+    } catch (error) {
+      setSubmitStatus({ type: 'error', message: 'Something went wrong. Please try again.' });
     } finally {
       setIsSubmitting(false);
     }
