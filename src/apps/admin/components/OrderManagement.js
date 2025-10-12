@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { adminApi } from '../services/adminApi';
 import Toast from '../../shared/components/Toast';
 import '../styles/AdminShared.css';
 import '../styles/OrderManagement.css';
@@ -48,26 +49,15 @@ const OrderManagement = () => {
       if (filters.date_from) params.append('date_from', filters.date_from);
       if (filters.date_to) params.append('date_to', filters.date_to);
 
-      const response = await fetch(`http://127.0.0.1:8000/admin/orders?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+      const data = await adminApi.getOrders(params.toString(), token);
+      const normalizedItems = (data.items || []).map(normalizeOrder);
+      setOrders(normalizedItems);
 
-      if (response.ok) {
-        const data = await response.json();
-        const normalizedItems = (data.items || []).map(normalizeOrder);
-        setOrders(normalizedItems);
-
-        const meta = data.meta || {};
-        setTotalRecords(meta.total || 0);
-        setTotalPages(meta.pages || 0);
-        if (meta.page && meta.page !== page) {
-          setPage(meta.page);
-        }
-      } else {
-        setError('Failed to fetch orders');
+      const meta = data.meta || {};
+      setTotalRecords(meta.total || 0);
+      setTotalPages(meta.pages || 0);
+      if (meta.page && meta.page !== page) {
+        setPage(meta.page);
       }
     } catch (error) {
       setError('Network error occurred');
@@ -107,33 +97,16 @@ const OrderManagement = () => {
 
   const handleStatusUpdate = async (orderId, newStatus) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/admin/orders/${orderId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status: newStatus })
+    try {
+      await adminApi.updateOrderStatus(orderId, newStatus, token);
+      
+      setToast({ 
+        message: `Order status updated to ${newStatus.toUpperCase()}`, 
+        type: 'success' 
       });
-
-      if (response.ok) {
-        const updatedOrder = await response.json();
-        
-        setToast({ 
-          message: `Order status updated to ${newStatus.toUpperCase()}`, 
-          type: 'success' 
-        });
-        
-        // Refetch orders to get updated data
-        fetchOrders();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        const message = errorData.detail || 'Failed to update order status';
-        setToast({ 
-          message: `Error: ${message}`, 
-          type: 'error' 
-        });
-      }
+      
+      // Refetch orders to get updated data
+      fetchOrders();
     } catch (error) {
       console.error('Error updating order status:', error);
       setToast({ 

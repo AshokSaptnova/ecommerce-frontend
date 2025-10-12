@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { adminApi } from '../services/adminApi';
 import '../styles/AdminShared.css';
 import '../styles/Reports.css';
 
@@ -21,17 +22,8 @@ const Reports = () => {
   const fetchReports = useCallback(async () => {
     try {
       const params = new URLSearchParams(dateRange);
-      const response = await fetch(`http://127.0.0.1:8000/admin/reports?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setReportData(data);
-      }
+      const data = await adminApi.getReports(params.toString(), token);
+      setReportData(data);
     } catch (error) {
       console.error('Error fetching reports:', error);
     } finally {

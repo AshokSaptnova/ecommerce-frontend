@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { adminApi } from '../services/adminApi';
 import '../styles/AdminShared.css';
 import '../styles/CategoryManagement.css';
 
@@ -19,7 +20,7 @@ const CategoryManagement = () => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch('${config.api.baseUrl}/categories', {
+      const response = await fetch(`${adminApi.getBaseUrl()}/categories`, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -48,28 +49,12 @@ const CategoryManagement = () => {
     e.preventDefault();
     
     try {
-      const url = modalMode === 'add' 
-        ? '${config.api.baseUrl}/admin/categories'
-        : `http://127.0.0.1:8000/admin/categories/${selectedCategory.id}`;
+      const categoryId = modalMode === 'edit' ? selectedCategory.id : null;
+      await adminApi.createOrUpdateCategory(formData, categoryId, token);
       
-      const method = modalMode === 'add' ? 'POST' : 'PUT';
-      
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
-        fetchCategories();
-        handleCloseModal();
-        alert(`Category ${modalMode === 'add' ? 'created' : 'updated'} successfully!`);
-      } else {
-        alert(`Failed to ${modalMode} category`);
-      }
+      fetchCategories();
+      handleCloseModal();
+      alert(`Category ${modalMode === 'add' ? 'created' : 'updated'} successfully!`);
     } catch (error) {
       alert(`Error ${modalMode === 'add' ? 'creating' : 'updating'} category`);
     }
@@ -81,20 +66,9 @@ const CategoryManagement = () => {
     }
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/admin/categories/${categoryId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        fetchCategories();
-        alert('Category deleted successfully!');
-      } else {
-        alert('Failed to delete category');
-      }
+      await adminApi.deleteCategory(categoryId, token);
+      fetchCategories();
+      alert('Category deleted successfully!');
     } catch (error) {
       alert('Error deleting category');
     }

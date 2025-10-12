@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { adminApi } from '../services/adminApi';
 import '../styles/UserManagement.css';
 import '../styles/AdminShared.css';
 
@@ -23,19 +24,8 @@ const UserManagement = () => {
       if (filters.role) params.append('role', filters.role);
       if (filters.is_active !== '') params.append('is_active', filters.is_active);
 
-      const response = await fetch(`http://127.0.0.1:8000/admin/users?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUsers(data);
-      } else {
-        setError('Failed to fetch users');
-      }
+      const data = await adminApi.getUsers(params.toString(), token);
+      setUsers(data);
     } catch (error) {
       setError('Network error occurred');
       console.error('Fetch users error:', error);
@@ -46,20 +36,8 @@ const UserManagement = () => {
 
   const handleStatusToggle = async (userId, currentStatus) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/admin/users/${userId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ is_active: !currentStatus })
-      });
-
-      if (response.ok) {
-        fetchUsers(); // Refresh the list
-      } else {
-        alert('Failed to update user status');
-      }
+      await adminApi.updateUserStatus(userId, !currentStatus, token);
+      fetchUsers(); // Refresh the list
     } catch (error) {
       alert('Error updating user status');
     }
@@ -73,18 +51,8 @@ const UserManagement = () => {
 
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/admin/users/${userId}`, {
-          method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-
-        if (response.ok) {
-          fetchUsers(); // Refresh the list
-        } else {
-          alert('Failed to delete user');
-        }
+        await adminApi.deleteUser(userId, token);
+        fetchUsers(); // Refresh the list
       } catch (error) {
         alert('Error deleting user');
       }

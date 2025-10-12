@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { adminApi } from '../services/adminApi';
 import '../styles/AdminShared.css';
 import '../styles/ProductManagement.css';
 
@@ -22,19 +23,8 @@ const ProductManagement = () => {
       if (filters.status) params.append('status', filters.status);
       if (filters.vendor_id) params.append('vendor_id', filters.vendor_id);
 
-            const response = await fetch(`http://127.0.0.1:8000/admin/products?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      } else {
-        setError('Failed to fetch products');
-      }
+      const data = await adminApi.getProducts(params.toString(), token);
+      setProducts(data);
     } catch (error) {
       setError('Network error occurred');
       console.error('Fetch products error:', error);
@@ -46,7 +36,7 @@ const ProductManagement = () => {
   const fetchVendorsAndCategories = useCallback(async () => {
     try {
       const [vendorsRes, categoriesRes] = await Promise.all([
-        fetch('${config.api.baseUrl}/admin/vendors', {
+        fetch(`${adminApi.getBaseUrl()}/admin/vendors`, {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
         fetch('${config.api.baseUrl}/categories', {
@@ -78,21 +68,9 @@ const ProductManagement = () => {
 
   const handleStatusUpdate = async (productId, newStatus) => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/admin/products/${productId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status: newStatus })
-      });
-
-      if (response.ok) {
-        fetchProducts(); // Refresh the list
-        alert(`Product status updated to ${newStatus}`);
-      } else {
-        alert('Failed to update product status');
-      }
+      await adminApi.updateProductStatus(productId, newStatus, token);
+      fetchProducts(); // Refresh the list
+      alert(`Product status updated to ${newStatus}`);
     } catch (error) {
       alert('Error updating product status');
     }
