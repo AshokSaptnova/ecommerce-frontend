@@ -20,7 +20,7 @@ const SystemSettings = () => {
 
   const fetchSettings = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/admin/settings', {
+      const response = await fetch('${config.api.baseUrl}/admin/settings', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -45,7 +45,7 @@ const SystemSettings = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
-      const response = await fetch('http://127.0.0.1:8000/admin/settings', {
+      const response = await fetch('${config.api.baseUrl}/admin/settings', {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,

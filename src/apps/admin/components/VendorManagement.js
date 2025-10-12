@@ -151,7 +151,7 @@ const VendorManagement = () => {
     try {
       let url, method;
       if (modalMode === 'add') {
-        url = 'http://127.0.0.1:8000/admin/vendors';
+        url = '${config.api.baseUrl}/admin/vendors';
         method = 'POST';
       } else if (modalMode === 'edit') {
         url = `http://127.0.0.1:8000/admin/vendors/${selectedVendor.id}`;

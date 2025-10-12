@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/VendorLogin.css';
 import { handleApiError } from '../../../shared/utils/errorHandler';
+import { vendorApi } from '../services/vendorApi';
 
 const VendorLogin = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -14,57 +15,22 @@ const VendorLogin = ({ onLogin }) => {
     setError('');
 
     try {
-      const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
-
-      const response = await fetch('http://127.0.0.1:8000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        
-        // Verify user role by getting user info
-        const userResponse = await fetch('http://127.0.0.1:8000/auth/me', {
-          headers: {
-            'Authorization': `Bearer ${data.access_token}`
-          }
-        });
-
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          if (userData.role === 'vendor') {
-            // Get vendor profile
-            const vendorResponse = await fetch('http://127.0.0.1:8000/vendors/me', {
-              headers: {
-                'Authorization': `Bearer ${data.access_token}`
-              }
-            });
-
-            if (vendorResponse.ok) {
-              const vendorData = await vendorResponse.json();
-              onLogin(userData, data.access_token, vendorData);
-            } else {
-              setError('Vendor profile not found. Please contact administrator.');
-            }
-          } else {
-            setError('Access denied. Vendor privileges required.');
-          }
-        } else {
-          setError('Failed to verify user credentials.');
-        }
+      // Login
+      const data = await vendorApi.login(email, password);
+      
+      // Verify user role by getting user info
+      const userData = await vendorApi.getMe(data.access_token);
+      
+      if (userData.role === 'VENDOR') {
+        // Get vendor profile
+        const vendorData = await vendorApi.getVendorProfile(data.access_token);
+        onLogin(userData, data.access_token, vendorData);
       } else {
-        const errorMessage = await handleApiError(response);
-        setError(errorMessage);
+        setError('Access denied. Vendor privileges required.');
       }
-    } catch (error) {
-      setError('Network error. Please try again.');
-      console.error('Login error:', error);
+    } catch (err) {
+      setError('Invalid email or password');
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }

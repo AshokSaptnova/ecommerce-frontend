@@ -14,7 +14,7 @@ const AdminDashboard = () => {
 
   const fetchDashboardData = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/admin/dashboard', {
+      const response = await fetch('${config.api.baseUrl}/admin/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'

@@ -46,10 +46,10 @@ const ProductManagement = () => {
   const fetchVendorsAndCategories = useCallback(async () => {
     try {
       const [vendorsRes, categoriesRes] = await Promise.all([
-        fetch('http://127.0.0.1:8000/admin/vendors', {
+        fetch('${config.api.baseUrl}/admin/vendors', {
           headers: { 'Authorization': `Bearer ${token}` }
         }),
-        fetch('http://127.0.0.1:8000/categories', {
+        fetch('${config.api.baseUrl}/categories', {
           headers: { 'Authorization': `Bearer ${token}` }
         })
       ]);

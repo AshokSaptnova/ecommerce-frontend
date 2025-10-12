@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/AdminLogin.css';
+import { adminApi } from '../services/adminApi';
 
 const AdminLogin = ({ onLogin }) => {
   const [email, setEmail] = useState('');
@@ -13,45 +14,20 @@ const AdminLogin = ({ onLogin }) => {
     setError('');
 
     try {
-      const formData = new URLSearchParams();
-      formData.append('username', email);
-      formData.append('password', password);
-
-      const response = await fetch('http://127.0.0.1:8000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        
-        // Verify user role by getting user info
-        const userResponse = await fetch('http://127.0.0.1:8000/auth/me', {
-          headers: {
-            'Authorization': `Bearer ${data.access_token}`
-          }
-        });
-
-        if (userResponse.ok) {
-          const userData = await userResponse.json();
-          if (userData.role === 'admin') {
-            onLogin(userData, data.access_token);
-          } else {
-            setError('Access denied. Admin privileges required.');
-          }
-        } else {
-          setError('Failed to verify user credentials.');
-        }
+      // Login
+      const data = await adminApi.login(email, password);
+      
+      // Verify user role
+      const userData = await adminApi.getMe(data.access_token);
+      
+      if (userData.role === 'ADMIN') {
+        onLogin(userData, data.access_token);
       } else {
-        const errorData = await response.json();
-        setError(errorData.detail || 'Login failed');
+        setError('Access denied. Admin privileges required.');
       }
-    } catch (error) {
-      setError('Network error. Please try again.');
-      console.error('Login error:', error);
+    } catch (err) {
+      setError('Invalid email or password');
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }

@@ -19,7 +19,7 @@ const CategoryManagement = () => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/categories', {
+      const response = await fetch('${config.api.baseUrl}/categories', {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const CategoryManagement = () => {
     
     try {
       const url = modalMode === 'add' 
-        ? 'http://127.0.0.1:8000/admin/categories'
+        ? '${config.api.baseUrl}/admin/categories'
         : `http://127.0.0.1:8000/admin/categories/${selectedCategory.id}`;
       
       const method = modalMode === 'add' ? 'POST' : 'PUT';
