@@ -20,7 +20,7 @@ const AdminLogin = ({ onLogin }) => {
       // Verify user role
       const userData = await adminApi.getMe(data.access_token);
       
-      if (userData.role === 'ADMIN') {
+      if (userData.role === 'admin') {
         onLogin(userData, data.access_token);
       } else {
         setError('Access denied. Admin privileges required.');

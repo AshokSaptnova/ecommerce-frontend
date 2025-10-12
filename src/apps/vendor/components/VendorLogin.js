@@ -21,7 +21,7 @@ const VendorLogin = ({ onLogin }) => {
       // Verify user role by getting user info
       const userData = await vendorApi.getMe(data.access_token);
       
-      if (userData.role === 'VENDOR') {
+      if (userData.role === 'vendor') {
         // Get vendor profile
         const vendorData = await vendorApi.getVendorProfile(data.access_token);
         onLogin(userData, data.access_token, vendorData);
