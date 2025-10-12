@@ -1,6 +1,6 @@
 // API service for fetching products data
 import { fallbackProducts } from '../../fallbackProducts';
-import config from '../../config';
+import { config } from '../../config/index';
 
 // Use relative URL when in development (proxy will handle it)
 // Use full URL in production
@@ -20,7 +20,7 @@ export const productService = {
       console.log('Fetching products from API...');
       
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for Render free tier
       
       const response = await fetch(`${API_BASE_URL}/products`, {
         method: 'GET',
