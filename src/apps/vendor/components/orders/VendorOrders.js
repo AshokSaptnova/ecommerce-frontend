@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Toast from '../../../shared/components/Toast';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorOrders.css';
 
 const STATUS_BUTTONS = [
@@ -82,54 +83,29 @@ const VendorOrders = ({ vendorData }) => {
       if (filters.date_to) params.append('date_to', filters.date_to);
 
       const accessToken = localStorage.getItem('vendorToken');
-      const response = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/orders?${params.toString()}`, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
+      const data = await vendorApi.getOrders(vendorData.id, params.toString(), accessToken);
+      
+      const normalizedItems = (data.items || []).map(normalizeOrder);
+      setOrders(normalizedItems);
 
-      if (response.ok) {
-        const data = await response.json();
-        const normalizedItems = (data.items || []).map(normalizeOrder);
-        setOrders(normalizedItems);
+      const meta = data.meta || {};
+      setTotalRecords(meta.total || 0);
+      setTotalPages(meta.pages || 0);
+      if (meta.page && meta.page !== page) {
+        setPage(meta.page);
+      }
+      if (meta.page_size && meta.page_size !== pageSize) {
+        setPageSize(meta.page_size);
+      }
+      setStatusCounts(meta.status_counts || {});
+      setPaymentCounts(meta.payment_status_counts || {});
 
-        const meta = data.meta || {};
-        setTotalRecords(meta.total || 0);
-        setTotalPages(meta.pages || 0);
-        if (meta.page && meta.page !== page) {
-          setPage(meta.page);
-        }
-        if (meta.page_size && meta.page_size !== pageSize) {
-          setPageSize(meta.page_size);
-        }
-        setStatusCounts(meta.status_counts || {});
-        setPaymentCounts(meta.payment_status_counts || {});
-
-        if ((meta.total || 0) === 0) {
-          setInfoMessage('No orders found for your catalog yet.');
-        }
-      } else {
-        let message = `Unable to fetch orders (status ${response.status})`;
-        try {
-          const payload = await response.json();
-          if (payload?.detail) {
-            message = Array.isArray(payload.detail)
-              ? payload.detail.map((item) => item.msg || item).join(', ')
-              : payload.detail;
-          }
-        } catch (_) {
-          // ignore parse errors
-        }
-        setError(message);
-        setOrders([]);
-        setTotalRecords(0);
-        setTotalPages(0);
-        setStatusCounts({});
-        setPaymentCounts({});
+      if ((meta.total || 0) === 0) {
+        setInfoMessage('No orders found for your catalog yet.');
       }
     } catch (err) {
       console.error('Error fetching vendor orders:', err);
-      setError('Network error fetching orders. Please try again.');
+      setError(err.message || 'Network error fetching orders. Please try again.');
       setOrders([]);
       setTotalRecords(0);
       setTotalPages(0);
@@ -156,37 +132,19 @@ const VendorOrders = ({ vendorData }) => {
         return;
       }
 
-      const response = await fetch(`http://127.0.0.1:8000/vendors/${vendorData.id}/orders/${orderId}/status`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ status: newStatus })
+      await vendorApi.updateOrderStatus(vendorData.id, orderId, newStatus, accessToken);
+      
+      setToast({ 
+        message: `Order status updated to ${newStatus.toUpperCase()}`, 
+        type: 'success' 
       });
-
-      if (response.ok) {
-        const updatedOrder = await response.json();
-        
-        setToast({ 
-          message: `Order status updated to ${newStatus.toUpperCase()}`, 
-          type: 'success' 
-        });
-        
-        // Refetch orders to get updated counts from backend
-        fetchOrders();
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        const message = errorData.detail || 'Failed to update order status';
-        setToast({ 
-          message: `Error: ${message}`, 
-          type: 'error' 
-        });
-      }
+      
+      // Refetch orders to get updated counts from backend
+      fetchOrders();
     } catch (error) {
       console.error('Error updating order status:', error);
       setToast({ 
-        message: 'Network error: Unable to update order status', 
+        message: error.message || 'Network error: Unable to update order status', 
         type: 'error' 
       });
     }
