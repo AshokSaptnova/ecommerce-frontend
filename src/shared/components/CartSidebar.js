@@ -20,7 +20,7 @@ const CartSidebar = ({ isOpen, onClose }) => {
   };
 
   if (showCheckout) {
-    return <CheckoutPage onBack={() => setShowCheckout(false)} />;
+    return <CheckoutPage onClose={() => setShowCheckout(false)} />;
   }
 
   if (!isOpen) return null;

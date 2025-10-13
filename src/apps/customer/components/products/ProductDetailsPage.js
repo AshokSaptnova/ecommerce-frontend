@@ -246,7 +246,6 @@ const ProductDetailsPage = () => {
     return (
       <CheckoutPage 
         onClose={() => setShowCheckout(false)}
-        onBack={() => setShowCheckout(false)}
       />
     );
   }
