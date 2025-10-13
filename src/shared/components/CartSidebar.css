@@ -265,6 +265,7 @@
 .cart-actions {
   display: flex;
   gap: 12px;
+  align-items: stretch; /* Ensure both buttons have same height */
 }
 
 .clear-cart-btn {
@@ -272,15 +273,22 @@
   background: #f56565;
   color: white;
   border: none;
-  padding: 12px 16px;
+  padding: 16px 20px;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px; /* Ensure consistent height */
 }
 
 .clear-cart-btn:hover {
   background: #e53e3e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.3);
 }
 
 .checkout-btn {
@@ -288,11 +296,16 @@
   background: linear-gradient(135deg, #4CAF50, #45a049);
   color: white;
   border: none;
-  padding: 12px 16px;
-  border-radius: 8px;  
+  padding: 16px 20px;
+  border-radius: 8px;
   font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px; /* Ensure consistent height */
 }
 
 .checkout-btn:hover {
