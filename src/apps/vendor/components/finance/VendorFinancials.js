@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorFinancials.css';
 
 const VendorFinancials = ({ vendorData }) => {
@@ -25,19 +26,8 @@ const VendorFinancials = ({ vendorData }) => {
 
   const fetchFinancialData = async () => {
     try {
-      const response = await fetch(`http://127.0.0.1:8000/vendor/financials?period=${selectedPeriod}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setFinancialData(data);
-      } else {
-        console.error('Failed to fetch financial data');
-      }
+      const data = await vendorApi.getFinancials(selectedPeriod, token);
+      setFinancialData(data);
     } catch (error) {
       console.error('Error fetching financial data:', error);
     } finally {
@@ -47,17 +37,8 @@ const VendorFinancials = ({ vendorData }) => {
 
   const fetchPayoutHistory = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/vendor/payouts', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setPayoutRequests(data);
-      }
+      const data = await vendorApi.getPayouts(token);
+      setPayoutRequests(data);
     } catch (error) {
       console.error('Error fetching payout history:', error);
     }
@@ -76,29 +57,15 @@ const VendorFinancials = ({ vendorData }) => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/vendor/payouts/request', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          amount: parseFloat(payoutAmount),
-          currency: 'INR'
-        })
-      });
-
-      if (response.ok) {
-        alert('Payout request submitted successfully!');
-        setShowPayoutModal(false);
-        setPayoutAmount('');
-        fetchFinancialData();
-        fetchPayoutHistory();
-      } else {
-        alert('Failed to submit payout request');
-      }
+      await vendorApi.requestPayout(parseFloat(payoutAmount), token);
+      alert('Payout request submitted successfully!');
+      setShowPayoutModal(false);
+      setPayoutAmount('');
+      fetchFinancialData();
+      fetchPayoutHistory();
     } catch (error) {
-      alert('Error submitting payout request');
+      console.error('Error submitting payout request:', error);
+      alert('Failed to submit payout request');
     }
   };
 
