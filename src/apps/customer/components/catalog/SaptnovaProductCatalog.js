@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useProducts } from '../../../../shared/hooks/useProducts';
 import { useCart } from '../../../../shared/context/CartContext';
 import CartNotification from '../../../../shared/components/CartNotification';
+import HeroSlider from '../../../../shared/components/HeroSlider';
+import CategorySlider from '../../../../shared/components/CategorySlider';
 import './SaptnovaProductCatalog.css';
 
 const SaptnovaProductCatalog = () => {
@@ -110,6 +112,12 @@ const SaptnovaProductCatalog = () => {
 
   return (
     <div className="saptnova-catalog">
+      {/* Hero Slider */}
+      <HeroSlider />
+
+      {/* Category Slider */}
+      <CategorySlider />
+
       {/* Header Section */}
       <div className="catalog-header">
         <h2>Featured Products</h2>

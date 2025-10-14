@@ -13,6 +13,7 @@ const CategoryManagement = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    image_url: '',
     parent_id: null
   });
 
@@ -76,7 +77,7 @@ const CategoryManagement = () => {
 
   const handleAddCategory = () => {
     setModalMode('add');
-    setFormData({ name: '', description: '', parent_id: null });
+    setFormData({ name: '', description: '', image_url: '', parent_id: null });
     setSelectedCategory(null);
     setShowModal(true);
   };
@@ -86,6 +87,7 @@ const CategoryManagement = () => {
     setFormData({
       name: category.name,
       description: category.description || '',
+      image_url: category.image_url || '',
       parent_id: category.parent_id
     });
     setSelectedCategory(category);
@@ -94,7 +96,7 @@ const CategoryManagement = () => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setFormData({ name: '', description: '', parent_id: null });
+    setFormData({ name: '', description: '', image_url: '', parent_id: null });
     setSelectedCategory(null);
   };
 
@@ -140,6 +142,7 @@ const CategoryManagement = () => {
         <table className="categories-table">
           <thead>
             <tr>
+              <th>Image</th>
               <th>Category Name</th>
               <th>Description</th>
               <th>Parent Category</th>
@@ -151,6 +154,19 @@ const CategoryManagement = () => {
           <tbody>
             {categories.map((category) => (
               <tr key={category.id}>
+                <td className="category-image">
+                  {category.image_url ? (
+                    <img 
+                      src={category.image_url} 
+                      alt={category.name}
+                      onError={(e) => {
+                        e.target.src = '/images/placeholder.jpg';
+                      }}
+                    />
+                  ) : (
+                    <div className="no-image">No Image</div>
+                  )}
+                </td>
                 <td className="category-name">
                   <strong>{category.name}</strong>
                 </td>
@@ -217,6 +233,33 @@ const CategoryManagement = () => {
                   placeholder="Enter category description"
                   rows="3"
                 />
+              </div>
+
+              <div className="form-group">
+                <label>Category Image URL</label>
+                <input
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({...formData, image_url: e.target.value})}
+                  placeholder="https://example.com/category-image.jpg"
+                />
+                <small className="form-hint">
+                  Enter the URL of the category image. Recommended size: 400x400px
+                </small>
+                {formData.image_url && (
+                  <div className="image-preview">
+                    <img 
+                      src={formData.image_url} 
+                      alt="Category preview" 
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                      onLoad={(e) => {
+                        e.target.style.display = 'block';
+                      }}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="form-group">
