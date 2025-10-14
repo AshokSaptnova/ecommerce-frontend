@@ -90,12 +90,12 @@ const CartSidebar = ({ isOpen, onClose }) => {
                         </button>
                       </div>
                       
-                      <button 
+                      {/* <button 
                         className="remove-btn"
                         onClick={() => removeFromCart(item.id)}
                       >
                         🗑️
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 ))}
