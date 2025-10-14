@@ -13,7 +13,7 @@ const CategorySlider = () => {
 
   // Predefined colors for categories
   const colorPalette = [
-    "#2d3436", // Black
+    // "#2d3436", // Black
     "#55efc4", // Mint
     "#ff7675", // Coral
     "#0c8599", // Teal
