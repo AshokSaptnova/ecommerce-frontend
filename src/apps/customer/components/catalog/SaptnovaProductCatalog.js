@@ -119,10 +119,10 @@ const SaptnovaProductCatalog = () => {
       <CategorySlider />
 
       {/* Header Section */}
-      <div className="catalog-header">
+      {/* <div className="catalog-header">
         <h2>Featured Products</h2>
         <p>Discover our premium range of Ayurvedic wellness solutions</p>
-      </div>
+      </div> */}
 
       {/* Products Grid */}
       <div className="products-grid">
