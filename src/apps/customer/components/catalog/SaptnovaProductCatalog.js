@@ -119,10 +119,10 @@ const SaptnovaProductCatalog = () => {
       <CategorySlider />
 
       {/* Header Section */}
-      {/* <div className="catalog-header">
+      <div className="catalog-header">
         <h2>Featured Products</h2>
         <p>Discover our premium range of Ayurvedic wellness solutions</p>
-      </div> */}
+      </div>
 
       {/* Products Grid */}
       <div className="products-grid">
@@ -146,23 +146,52 @@ const SaptnovaProductCatalog = () => {
         </Link>
       </div>
 
-      {/* Trust Badges */}
-      <div className="trust-badges">
-        <div className="badge">
-          <span className="badge-icon">🚚</span>
-          <span className="badge-text">Pan India Free Shipping</span>
-        </div>
-        <div className="badge">
-          <span className="badge-icon">🌿</span>
-          <span className="badge-text">100% Pure & Organic</span>
-        </div>
-        <div className="badge">
-          <span className="badge-icon">✅</span>
-          <span className="badge-text">Ayush & GMP Certified</span>
-        </div>
-        <div className="badge">
-          <span className="badge-icon">⚡</span>
-          <span className="badge-text">No Side Effects</span>
+      {/* Scrolling Trust Badges */}
+      <div className="scrolling-badges-container">
+        <div className="scrolling-badges">
+          <div className="badges-track">
+            <div className="badge-item">
+              <span className="badge-icon">🌿</span>
+              <span className="badge-text">100% Pure & Organic</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">✅</span>
+              <span className="badge-text">Ayush & GMP Certified</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">⚡</span>
+              <span className="badge-text">No Side Effects</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">🚚</span>
+              <span className="badge-text">Pan India Free Shipping</span>
+            </div>
+            <div className="badge-separator">●</div>
+            {/* Duplicate for seamless loop */}
+            <div className="badge-item">
+              <span className="badge-icon">🌿</span>
+              <span className="badge-text">100% Pure & Organic</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">✅</span>
+              <span className="badge-text">Ayush & GMP Certified</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">⚡</span>
+              <span className="badge-text">No Side Effects</span>
+            </div>
+            <div className="badge-separator">●</div>
+            <div className="badge-item">
+              <span className="badge-icon">🚚</span>
+              <span className="badge-text">Pan India Free Shipping</span>
+            </div>
+            <div className="badge-separator">●</div>
+          </div>
         </div>
       </div>
 

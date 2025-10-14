@@ -443,7 +443,101 @@ div.saptnova-product-card button.add-to-cart-btn {
   color: white;
 }
 
-/* Trust Badges */
+/* Scrolling Trust Badges */
+.scrolling-badges-container {
+  width: 100%;
+  background: linear-gradient(90deg, #2d5016 0%, #4a7c2c 50%, #2d5016 100%);
+  overflow: hidden;
+  padding: 20px 0;
+  margin: 40px 0;
+  position: relative;
+}
+
+.scrolling-badges-container::before,
+.scrolling-badges-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.scrolling-badges-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(45, 80, 22, 1), rgba(45, 80, 22, 0));
+}
+
+.scrolling-badges-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(45, 80, 22, 1), rgba(45, 80, 22, 0));
+}
+
+.scrolling-badges {
+  width: 100%;
+  overflow: hidden;
+}
+
+.badges-track {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  animation: scroll-left 30s linear infinite;
+  white-space: nowrap;
+  padding: 0 20px;
+}
+
+.badges-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.badge-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.badge-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.badge-item .badge-icon {
+  font-size: 1.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.badge-item .badge-text {
+  font-weight: 600;
+  color: white;
+  font-size: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.3px;
+}
+
+.badge-separator {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+/* Old Trust Badges (kept for backward compatibility) */
 .trust-badges {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
