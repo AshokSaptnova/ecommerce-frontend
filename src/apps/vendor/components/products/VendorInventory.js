@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { vendorApi } from '../../services/vendorApi';
 import '../../styles/VendorInventory.css';
+import Toast from '../../../shared/components/Toast';
 
 const VendorInventory = ({ vendorData }) => {
   const [products, setProducts] = useState([]);
@@ -8,10 +9,8 @@ const VendorInventory = ({ vendorData }) => {
   const [editingId, setEditingId] = useState(null);
   const [editStock, setEditStock] = useState('');
   const [token] = useState(localStorage.getItem('vendorToken'));
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const [toast, setToast] = useState(null);
+  const fileInputRef = useRef(null);
 
   const fetchProducts = async () => {
     try {
@@ -23,6 +22,11 @@ const VendorInventory = ({ vendorData }) => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchProducts();
+    // eslint-disable-next-line
+  }, []);
 
   const handleStockUpdate = async (productId) => {
     try {
@@ -48,6 +52,89 @@ const VendorInventory = ({ vendorData }) => {
   const lowStockCount = products.filter(p => p.stock_quantity < 10).length;
   const outOfStockCount = products.filter(p => p.stock_quantity === 0).length;
   const totalValue = products.reduce((sum, p) => sum + (p.price * p.stock_quantity), 0);
+  // Export Inventory as CSV
+  const handleExportInventory = () => {
+    if (!products.length) {
+      setToast({ message: 'No inventory to export.', type: 'error' });
+      return;
+    }
+    const headers = ['Product Name', 'SKU', 'Stock', 'Price', 'Status'];
+    const rows = products.map(p => [
+      p.name,
+      p.sku || '',
+      p.stock_quantity,
+      p.price,
+      getStockStatus(p.stock_quantity).label
+    ]);
+    const csvContent = [headers, ...rows].map(r => r.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'inventory.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setToast({ message: 'Inventory exported successfully.', type: 'success' });
+  };
+
+  // Import Stock from CSV
+  const handleImportStock = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (!file.name.endsWith('.csv')) {
+      setToast({ message: 'Please upload a valid CSV file.', type: 'error' });
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const text = event.target.result;
+      const lines = text.split(/\r?\n/).filter(Boolean);
+      if (lines.length < 2) {
+        setToast({ message: 'CSV file is empty or invalid.', type: 'error' });
+        return;
+      }
+      const header = lines[0].split(',');
+      const nameIdx = header.indexOf('Product Name');
+      const skuIdx = header.indexOf('SKU');
+      const stockIdx = header.indexOf('Stock');
+      const priceIdx = header.indexOf('Price');
+      if (nameIdx === -1 || stockIdx === -1) {
+        setToast({ message: 'CSV must have Product Name and Stock columns.', type: 'error' });
+        return;
+      }
+      let updated = 0;
+      for (let i = 1; i < lines.length; i++) {
+        const cols = lines[i].split(',');
+        const name = cols[nameIdx];
+        const sku = skuIdx !== -1 ? cols[skuIdx] : '';
+        const stock = parseInt(cols[stockIdx], 10);
+        const price = priceIdx !== -1 ? parseFloat(cols[priceIdx]) : undefined;
+        if (!name || isNaN(stock)) continue;
+        // Find product by SKU or name
+        const product = products.find(p => (sku ? p.sku === sku : p.name === name));
+        if (product) {
+          try {
+            await vendorApi.updateProduct(product.id, {
+              stock_quantity: stock,
+              ...(price !== undefined ? { price } : {})
+            }, token);
+            updated++;
+          } catch (err) {
+            // skip errors for individual products
+          }
+        }
+      }
+      if (updated > 0) {
+        setToast({ message: `Imported stock for ${updated} products.`, type: 'success' });
+        fetchProducts();
+      } else {
+        setToast({ message: 'No matching products found to update.', type: 'info' });
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   if (loading) {
     return (
@@ -57,15 +144,19 @@ const VendorInventory = ({ vendorData }) => {
       </div>
     );
   }
-
   return (
-    <div className="vendor-inventory">
+  <div className="vendor-inventory">
+      {toast && (
+        <Toast 
+          message={toast.message} 
+          type={toast.type} 
+          onClose={() => setToast(null)} 
+        />
+      )}
       <div className="page-header">
         <h1>Inventory Management</h1>
         <p>Track and manage your product stock levels</p>
       </div>
-
-      {/* Inventory Stats */}
       <div className="inventory-stats">
         <div className="stat-card">
           <div className="stat-icon">📦</div>
@@ -96,8 +187,6 @@ const VendorInventory = ({ vendorData }) => {
           </div>
         </div>
       </div>
-
-      {/* Inventory Table */}
       <div className="inventory-table-container">
         <table className="inventory-table">
           <thead>
@@ -180,19 +269,24 @@ const VendorInventory = ({ vendorData }) => {
           </tbody>
         </table>
       </div>
-
-      {/* Quick Actions */}
       <div className="inventory-actions">
         <h3>Quick Actions</h3>
         <div className="actions-grid">
-          <button className="action-btn">
+          <button className="action-btn" onClick={handleExportInventory}>
             <span className="icon">📊</span>
             <span>Export Inventory</span>
           </button>
-          <button className="action-btn">
+          <button className="action-btn" onClick={() => fileInputRef.current.click()}>
             <span className="icon">📥</span>
             <span>Import Stock</span>
           </button>
+          <input
+            type="file"
+            ref={fileInputRef}
+            style={{ display: 'none' }}
+            accept=".csv"
+            onChange={handleImportStock}
+          />
           <button className="action-btn">
             <span className="icon">🔔</span>
             <span>Set Alerts</span>
@@ -204,7 +298,8 @@ const VendorInventory = ({ vendorData }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+
 
 export default VendorInventory;
