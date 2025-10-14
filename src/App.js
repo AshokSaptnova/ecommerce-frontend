@@ -21,6 +21,7 @@ import Page_6 from './apps/customer/components/products/Page_6_-_InsuWish';
 import Page_7 from './apps/customer/components/products/Page_7_-_Cardiowish';
 import ProductDetailsPage from './apps/customer/components/products/ProductDetailsPage';
 import ProductDetailsDemo from './ProductDetailsDemo';
+import CategoryPage from './apps/customer/pages/CategoryPage';
 import RegisterPage from './apps/customer/pages/RegisterPage';
 import LoginPage from './apps/customer/pages/LoginPage';
 import AccountPage from './apps/customer/pages/AccountPage';
@@ -81,6 +82,9 @@ function App() {
                 <Route path="/all-products" element={<AllProductsPage />} />
                 <Route path="/catalog" element={<ProductCatalog />} />
                 <Route path="/contact" element={<ContactPage />} />
+                
+                {/* Category Page */}
+                <Route path="/category/:categorySlug" element={<CategoryPage />} />
                 
                 {/* Product Detail Pages - Support both /product/ and /products/ */}
                 <Route path="/product/:productId" element={<ProductDetailsPage />} />

@@ -73,7 +73,9 @@ function Navbar() {
   };
 
   const handleCategoryClick = (category) => {
-    navigate(`/all-products?category=${category.slug}`);
+    // Navigate to category page instead of all-products with filter
+    const categorySlug = category.slug || category.name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/category/${categorySlug}`);
     setIsCollectionsOpen(false);
   };
 

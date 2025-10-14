@@ -101,8 +101,9 @@ const CategorySlider = () => {
   };
 
   const handleCategoryClick = (category) => {
-    // Navigate to all products page with category filter
-    navigate('/all-products', { state: { category: category.name } });
+    // Navigate to category page with category slug
+    const categorySlug = category.slug || category.name.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/category/${categorySlug}`);
   };
 
   if (loading) {
