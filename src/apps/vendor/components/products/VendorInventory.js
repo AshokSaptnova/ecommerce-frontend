@@ -271,7 +271,7 @@ const VendorInventory = ({ vendorData }) => {
       </div>
       <div className="inventory-actions">
         <h3>Quick Actions</h3>
-        <div className="actions-grid">
+        <div className="actions-row">
           <button className="action-btn" onClick={handleExportInventory}>
             <span className="icon">📊</span>
             <span>Export Inventory</span>
