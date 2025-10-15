@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../../styles/VendorCustomers.css';
+import { vendorApi } from '../../services/vendorApi';
 
 const VendorCustomers = () => {
   const [customers, setCustomers] = useState([]);
@@ -17,84 +18,59 @@ const VendorCustomers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [customersPerPage] = useState(10);
 
-  // Mock data - replace with API calls
   useEffect(() => {
-    const mockCustomers = [
-      {
-        id: 1,
-        name: 'Rajesh Kumar',
-        email: 'rajesh.k@email.com',
-        phone: '+91 98765 43210',
-        totalOrders: 15,
-        totalSpent: 45600,
-        lastOrderDate: '2024-03-15',
-        status: 'active',
-        customerSince: '2023-06-12',
-        city: 'Mumbai',
-        preferredCategory: 'Electronics'
-      },
-      {
-        id: 2,
-        name: 'Priya Sharma',
-        email: 'priya.sharma@email.com',
-        phone: '+91 87654 32109',
-        totalOrders: 8,
-        totalSpent: 23400,
-        lastOrderDate: '2024-03-20',
-        status: 'active',
-        customerSince: '2023-09-15',
-        city: 'Delhi',
-        preferredCategory: 'Fashion'
-      },
-      {
-        id: 3,
-        name: 'Amit Patel',
-        email: 'amit.patel@email.com',
-        phone: '+91 76543 21098',
-        totalOrders: 3,
-        totalSpent: 8900,
-        lastOrderDate: '2024-02-28',
-        status: 'inactive',
-        customerSince: '2024-01-10',
-        city: 'Ahmedabad',
-        preferredCategory: 'Home & Garden'
-      },
-      {
-        id: 4,
-        name: 'Sneha Reddy',
-        email: 'sneha.reddy@email.com',
-        phone: '+91 65432 10987',
-        totalOrders: 22,
-        totalSpent: 67800,
-        lastOrderDate: '2024-03-18',
-        status: 'vip',
-        customerSince: '2022-11-05',
-        city: 'Hyderabad',
-        preferredCategory: 'Beauty'
-      },
-      {
-        id: 5,
-        name: 'Vikram Singh',
-        email: 'vikram.singh@email.com',
-        phone: '+91 54321 09876',
-        totalOrders: 12,
-        totalSpent: 34500,
-        lastOrderDate: '2024-03-10',
-        status: 'active',
-        customerSince: '2023-04-20',
-        city: 'Jaipur',
-        preferredCategory: 'Sports'
+    async function fetchCustomers() {
+      console.log('VendorCustomers useEffect triggered');
+      setLoading(true);
+      try {
+        let vendorId = localStorage.getItem('vendorId');
+        let token = localStorage.getItem('token') || localStorage.getItem('access_token') || localStorage.getItem('vendorToken');
+        console.log('Fetched from localStorage:', { vendorId, token });
+        if (!token) {
+          console.warn('No token found, skipping customer fetch');
+          setCustomers([]);
+          setCustomerStats({ totalCustomers: 0, newThisMonth: 0, returningCustomers: 0, averageOrderValue: 0 });
+          setLoading(false);
+          return;
+        }
+        if (!vendorId) {
+          console.log('No vendorId found, fetching vendor profile...');
+          const profile = await vendorApi.getVendorProfile(token);
+          vendorId = profile.id;
+          localStorage.setItem('vendorId', vendorId);
+          console.log('Fetched vendor profile:', profile);
+        }
+        console.log('Fetching customers for vendorId:', vendorId);
+        const apiCustomers = await vendorApi.getVendorCustomers(vendorId, token);
+        console.log('Fetched customers:', apiCustomers);
+        const mapped = apiCustomers.map(c => ({
+          id: c.id,
+          name: c.full_name,
+          email: c.email,
+          phone: c.phone,
+          totalOrders: c.total_orders || 0,
+          totalSpent: c.total_spent || 0,
+          lastOrderDate: c.last_order_date || c.created_at,
+          status: 'active',
+          customerSince: c.created_at,
+          city: '',
+          preferredCategory: ''
+        }));
+        setCustomers(mapped);
+        setCustomerStats({
+          totalCustomers: mapped.length,
+          newThisMonth: mapped.filter(c => new Date(c.customerSince) > new Date(new Date().getFullYear(), new Date().getMonth(), 1)).length,
+          returningCustomers: mapped.filter(c => c.totalOrders > 1).length,
+          averageOrderValue: mapped.length > 0 ? mapped.reduce((sum, c) => sum + (c.totalSpent / (c.totalOrders || 1)), 0) / mapped.length : 0
+        });
+      } catch (err) {
+        console.error('Error fetching customers:', err);
+        setCustomers([]);
+        setCustomerStats({ totalCustomers: 0, newThisMonth: 0, returningCustomers: 0, averageOrderValue: 0 });
       }
-    ];
-
-    setCustomers(mockCustomers);
-    setCustomerStats({
-      totalCustomers: mockCustomers.length,
-      newThisMonth: mockCustomers.filter(c => new Date(c.customerSince) > new Date('2024-03-01')).length,
-      returningCustomers: mockCustomers.filter(c => c.totalOrders > 1).length,
-      averageOrderValue: mockCustomers.reduce((sum, c) => sum + (c.totalSpent / c.totalOrders), 0) / mockCustomers.length
-    });
-    setLoading(false);
+      setLoading(false);
+    }
+    fetchCustomers();
   }, []);
 
   const handleViewCustomer = (customer) => {

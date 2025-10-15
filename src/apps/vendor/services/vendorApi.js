@@ -107,6 +107,18 @@ export const vendorApi = {
     return response.json();
   },
 
+  getVendorCustomers: async (vendorId, token) => {
+    const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/customers`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to get vendor customers');
+    }
+    return response.json();
+  },
+
   createProduct: async (vendorId, productData, token) => {
     const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}/products`, {
       method: 'POST',
